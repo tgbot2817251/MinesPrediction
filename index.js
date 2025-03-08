@@ -16,7 +16,6 @@ const timeSlots = [
     { start: "16:30", end: "17:00" },
     { start: "18:30", end: "19:00" },
     { start: "20:30", end: "21:00" },
-    { start: "13:20", end: "13:25" },
     { start: "22:30", end: "23:00" }
 ];
 
