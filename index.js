@@ -1,7 +1,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 
-// 🔥 Bot Token (BotFather se liya hua)
-const token = "7926331437:AAEYjgk2jQbJc3Fry9W6O_m62dFx5RS_bBg"; // Yaha apna bot token daalo
+// 🔥 Bot Token (Directly yahan likho)
+const token = "7926331437:AAEYjgk2jQbJc3Fry9W6O_m62dFx5RS_bBg"; // Yahan apna bot token daalo
 const bot = new TelegramBot(token, { polling: true });
 
 // 🔥 Private ya Public Channels ke IDs
@@ -40,17 +40,22 @@ function generatePrediction() {
     return `ᴍɪɴᴇꜱ ᴘʀᴇᴅɪᴄᴛɪᴏɴ 💣⭐️\nɢᴀᴍᴇ ɴᴀᴍᴇ : 51 ɢᴀᴍᴇ\n\nᴍɪɴᴇꜱ ꜱᴇᴛ : 3💣\nꜱᴛᴀʀ ᴏᴘᴇɴ : 5⭐\n\n${gridText}\n\nɪꜰ ʏᴏᴜ ʟᴏꜱꜱ :\n              ᴛʀʏ ᴜᴘ ᴛᴏ 4 ᴛɪᴍᴇ`;
 }
 
+// 🔥 Get Current Time in IST (Indian Standard Time)
+function getCurrentISTTime() {
+    let now = new Date();
+    now.setHours(now.getHours() + 5, now.getMinutes() + 30); // Convert UTC to IST
+    return now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
+}
+
 // 🔥 Check if current time is in any prediction time slot
 function isPredictionTime() {
-    const now = new Date();
-    const currentTime = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
+    const currentTime = getCurrentISTTime();
     return timeSlots.find(slot => slot.start <= currentTime && currentTime < slot.end);
 }
 
 // 🔥 Check if it's time to send the pre-start message (3 min before)
 function isPreStartTime() {
-    const now = new Date();
-    const currentTime = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
+    const currentTime = getCurrentISTTime();
     return timeSlots.find(slot => {
         let [hours, minutes] = slot.start.split(":").map(Number);
         let preStartMinutes = minutes - 3;
@@ -65,8 +70,7 @@ function isPreStartTime() {
 
 // 🔥 Check if it's time to send the closing message
 function isEndTime() {
-    const now = new Date();
-    const currentTime = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
+    const currentTime = getCurrentISTTime();
     return timeSlots.find(slot => slot.end === currentTime);
 }
 
@@ -75,6 +79,8 @@ setInterval(() => {
     const predictionSlot = isPredictionTime();
     const preStartSlot = isPreStartTime();
     const endSlot = isEndTime();
+    const currentTime = getCurrentISTTime();
+    console.log(`⏳ Checking Time: ${currentTime}`);
 
     // 🔥 Agar 3 min pehle ka time hai to alert bhejna
     if (preStartSlot) {
