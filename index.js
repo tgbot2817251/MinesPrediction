@@ -7,7 +7,7 @@ const bot = new TelegramBot(token, { polling: true });
 // 🔥 Private ya Public Channels ke IDs
 let channels = ["-1002212177790"]; // Apna channel ID daalo
 
-// 🔥 Time Slots (Prediction Start & Stop Times)
+// 🔥 Time Slots (IST - India Standard Time)
 const timeSlots = [
     { start: "08:30", end: "09:00" },
     { start: "10:30", end: "11:00" },
