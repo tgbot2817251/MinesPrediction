@@ -1,8 +1,11 @@
+require('dotenv').config();
 const TelegramBot = require("node-telegram-bot-api");
 
-// 🔥 Bot Token (Directly yahan likho)
-const token = "7926331437:AAEYjgk2jQbJc3Fry9W6O_m62dFx5RS_bBg"; // Yahan apna bot token daalo
+// 🔥 Use the token from the environment variable
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
+
+// 🔥 Channels and the rest of your code...
 
 // 🔥 Private ya Public Channels ke IDs
 let channels = ["-1002212177790"]; // Apna channel ID daalo
